@@ -26,7 +26,7 @@ class ScalarHistory:
         if isinstance(b, ScalarHistory):
             return ScalarHistory(self.last_fn, self.inputs + b.inputs)
         return NotImplemented
-        
+
 class Scalar:
     def __init__(self, location):
         self.location = location
@@ -40,7 +40,7 @@ class Scalar:
 
     def __radd__(self, b):
         return self + b
-        
+
     def __add__(self, b):
         if isinstance(b, (float, int)):
             return ScalarHistory("id", [self])
@@ -49,7 +49,7 @@ class Scalar:
         if isinstance(b, ScalarHistory):
             return ScalarHistory("+", [self] + b.inputs)
         return NotImplemented
-    
+
 class Table:
     def __init__(self, name, array):
         self.name = name
@@ -57,7 +57,7 @@ class Table:
         self.array = array
 
         self.size = array.shape
-    
+
     def __getitem__(self, index):
         self.array[index]
         if isinstance(index, int):
@@ -101,7 +101,7 @@ class Coord:
 class RefList:
     def __init__(self):
         self.refs = []
-        
+
     def __getitem__(self, index):
         return self.refs[-1][index]
 
@@ -248,7 +248,7 @@ def draw_coins(tpbx, tpby):
             for tt, pos in Coord(tpbx, tpby).enumerate()
         ]
     )
-    
+
 
 def label(dia, content):
     t = vstrut(0.5) / text(content, 0.5).fill_color(black).line_width(0) / vstrut(0.5)
@@ -256,7 +256,7 @@ def label(dia, content):
     return (dia + dia.juxtapose(t, -unit_y)).center_xy()
 
 
-    
+
 def draw_results(results, name, tpbx, tpby, sparse=False):
     full = empty()
     blocks = []
@@ -271,7 +271,7 @@ def draw_results(results, name, tpbx, tpby, sparse=False):
                 + (1 / (2 * tpby)),
             )
             color = colors[tt]
-            
+
             lines = True
             if sparse:
                 lines = (pos.x == 0 and pos.y == 0) or (
@@ -294,7 +294,7 @@ def draw_results(results, name, tpbx, tpby, sparse=False):
             Color("grey")
         ).fill_opacity(0.0)
 
-        
+
         blocks.append(dia.pad(1.1))
         locations.append(P2(block.x, block.y))
 
@@ -334,7 +334,7 @@ class CudaProblem:
     blockspergrid: Coord = Coord(1, 1)
     threadsperblock: Coord = Coord(1, 1)
     spec: Any = None
-        
+
     def run_cuda(self):
         fn = self.fn
         fn = fn(numba.cuda)
@@ -384,18 +384,18 @@ class CudaProblem:
                 if count[k] > full[k]:
                     full[k] = count[k]
         print(f"""# {self.name}
- 
+
    Score (Max Per Thread):
    | {'Global Reads':>13} | {'Global Writes':>13} | {'Shared Reads' :>13} | {'Shared Writes' :>13} |
-   | {full['in_reads']:>13} | {full['out_writes']:>13} | {full['shared_reads']:>13} | {full['shared_writes']:>13} | 
-""") 
-    
+   | {full['in_reads']:>13} | {full['out_writes']:>13} | {full['shared_reads']:>13} | {full['shared_writes']:>13} |
+""")
+
     def show(self, sparse=False):
         results = self.run_python()
         self.score(results)
         return draw_results(results, self.name,
                             self.threadsperblock.x, self.threadsperblock.y, sparse)
-    
+
     def check(self):
         x = self.run_cuda()
         y = self.spec(*self.inputs)
@@ -450,7 +450,7 @@ class CudaProblem:
                 <source src="https://openpuppies.com/mp4/%s.mp4"  type="video/mp4">
             </video>
             """%(random.sample(pups, 1)[0]))
-            
+
         except AssertionError:
             print("Failed Tests.")
             print("Yours:", x)
