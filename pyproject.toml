@@ -1,0 +1,16 @@
+[project]
+name = "gpu-puzzles"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "chalk-diagrams",
+    "chalk-planar",
+    "ipykernel>=6.29.5",
+    "numba-cuda>=0.8.0",
+]
+
+[tool.uv.sources]
+chalk-diagrams = { git = "https://github.com/chalk-diagrams/chalk", branch = "srush-patch-1" }
+chalk-planar = { git = "https://github.com/chalk-diagrams/planar" }
